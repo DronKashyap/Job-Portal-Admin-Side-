@@ -1,9 +1,18 @@
 import { Request, Response } from 'express';
 import { Candidate } from '../models/models';
+import { z } from 'zod';
+
+const candidateSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email format'),
+  resume: z.string().min(1, 'Resume is required'),
+  jobPosting: z.string().uuid('Invalid job posting ID format'), // Assuming jobPosting is a UUID
+});
 
 export const createCandidate = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, email, resume, jobPosting } = req.body;
+    const parsedData = candidateSchema.parse(req.body);
+    const { name, email, resume, jobPosting } = parsedData;
 
     const newCandidate = new Candidate({
       name,
@@ -15,7 +24,11 @@ export const createCandidate = async (req: Request, res: Response): Promise<void
     await newCandidate.save();
     res.status(201).json(newCandidate);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating candidate', error });
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Validation error', errors: error.errors });
+    } else {
+      res.status(500).json({ message: 'Error creating candidate', error });
+    }
   }
 };
 

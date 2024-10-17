@@ -1,10 +1,23 @@
 import { Request, Response } from 'express';
 import { User } from '../models/models';
 import bcrypt from 'bcrypt';
+import { z } from 'zod';
+
+const userSchema = z.object({
+  username: z.string().min(1, 'Username is required'),
+  email: z.string().email('Invalid email format'),
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
+  company: z.string().optional(),
+  position: z.string().optional(),
+});
+
+const updateUserSchema = userSchema.partial(); // Allow partial updates for user fields
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { username, email, password, company, position } = req.body;
+    const parsedData = userSchema.parse(req.body);
+    const { username, email, password, company, position } = parsedData;
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
@@ -18,7 +31,11 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating user', error });
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Validation error', errors: error.errors });
+    } else {
+      res.status(500).json({ message: 'Error creating user', error });
+    }
   }
 };
 
@@ -40,12 +57,12 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 export const updateUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { username, email, password, company, position } = req.body;
+    const parsedData = updateUserSchema.parse(req.body);
 
-    const updatedData: any = { username, email, company, position };
+    const updatedData: any = { ...parsedData };
 
-    if (password) {
-      updatedData.password = await bcrypt.hash(password, 10);
+    if (parsedData.password) {
+      updatedData.password = await bcrypt.hash(parsedData.password, 10);
     }
 
     const updatedUser = await User.findByIdAndUpdate(id, updatedData, { new: true });
@@ -56,7 +73,11 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
     }
     res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating user', error });
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Validation error', errors: error.errors });
+    } else {
+      res.status(500).json({ message: 'Error updating user', error });
+    }
   }
 };
 

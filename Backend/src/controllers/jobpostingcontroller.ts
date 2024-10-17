@@ -1,29 +1,42 @@
 import { Request, Response } from 'express';
 import { JobPosting, User, Candidate } from '../models/models';
+import { z } from 'zod';
+
+const jobPostingSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  description: z.string().min(1, 'Description is required'),
+  company: z.string().min(1, 'Company name is required'),
+  location: z.string().min(1, 'Location is required'),
+  createdBy: z.string().length(24, 'Invalid user ID format'), // Assuming ObjectId is a 24 character string
+});
 
 export const createJobPosting = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, description, company, location, createdBy } = req.body;
+    const parsedData = jobPostingSchema.parse(req.body);
 
     const newJobPosting = new JobPosting({
-      title,
-      description,
-      company,
-      location,
-      createdBy,
+      title: parsedData.title,
+      description: parsedData.description,
+      company: parsedData.company,
+      location: parsedData.location,
+      createdBy: parsedData.createdBy,
     });
 
     const savedJobPosting = await newJobPosting.save();
 
     await User.findByIdAndUpdate(
-      createdBy,
+      parsedData.createdBy,
       { $push: { jobPostings: savedJobPosting._id } },
       { new: true }
     );
 
     res.status(201).json(savedJobPosting);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating job posting', error });
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Validation error', errors: error.errors });
+    } else {
+      res.status(500).json({ message: 'Error creating job posting', error });
+    }
   }
 };
 
@@ -46,11 +59,11 @@ export const getJobPostingById = async (req: Request, res: Response): Promise<vo
 export const updateJobPosting = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { title, description, company, location } = req.body;
+    const parsedData = jobPostingSchema.partial().parse(req.body); // Allow partial updates
 
     const updatedJobPosting = await JobPosting.findByIdAndUpdate(
       id,
-      { title, description, company, location },
+      { ...parsedData },
       { new: true }
     );
 
@@ -61,7 +74,11 @@ export const updateJobPosting = async (req: Request, res: Response): Promise<voi
 
     res.status(200).json(updatedJobPosting);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating job posting', error });
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: 'Validation error', errors: error.errors });
+    } else {
+      res.status(500).json({ message: 'Error updating job posting', error });
+    }
   }
 };
 
