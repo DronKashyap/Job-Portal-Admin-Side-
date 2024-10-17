@@ -53,34 +53,26 @@ Run the application:
 
 npm run dev
 The backend will start running on the specified port (default is 3000).
-
 API Endpoints
+
 Users
+
 POST /api/users: Create a new user
-GET /api/users/
-: Get a user by ID
-PUT /api/users/
-: Update user information
-DELETE /api/users/
-: Delete a user
+GET /api/users/:id: Get a user by ID
+PUT /api/users/:id: Update user information
+DELETE /api/users/:id: Delete a user
 GET /api/users: Retrieve all users
-
-
 Job Postings
+
 POST /api/job-postings: Create a new job posting
-GET /api/job-postings/
-: Get a job posting by ID
-PUT /api/job-postings/
-: Update job posting information
-DELETE /api/job-postings/
-: Delete a job posting
+GET /api/job-postings/:id: Get a job posting by ID
+PUT /api/job-postings/:id: Update job posting information
+DELETE /api/job-postings/:id: Delete a job posting
 GET /api/job-postings: Retrieve all job postings
-
-
 Candidates
+
 POST /api/candidates: Create a new candidate
-GET /api/candidates/
-: Get a candidate by ID
+GET /api/candidates/:id: Get a candidate by ID
 GET /api/candidates: Retrieve all candidates
 Contributing
 Contributions are welcome! Please follow these steps to contribute to the project:
@@ -90,13 +82,13 @@ Create a new branch (git checkout -b feature/YourFeature).
 Commit your changes (git commit -m 'Add some feature').
 Push to the branch (git push origin feature/YourFeature).
 Open a pull request.
-
 Acknowledgments
+
 Node.js - JavaScript runtime
 Express.js - Web framework for Node.js
 TypeScript - Typed superset of JavaScript
 Bcrypt - Password hashing library
 Zod - TypeScript-first schema validation
-
 For any questions or support, feel free to reach out!
 
+Let me know if you need any more modifications!
