@@ -53,6 +53,26 @@ const MyListings = () => {
     }
   }, [userId]);
 
+  const handleDelete = async (id: string) => {
+    if (confirm('Are you sure you want to delete this job posting?')) {
+      try {
+        await axios.delete(`http://localhost:3001/api/jobpostings/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setJobPostings(jobPostings.filter(job => job._id !== id));
+      } catch (error) {
+        console.error('Error deleting job posting:', error);
+        setError('Failed to delete job posting. Please try again.');
+      }
+    }
+  };
+
+  const handleEdit = async (id: string) => {
+    router.push(`/edit-job-posting/${id}`);
+  };
+
   return (
     <div className="container mx-auto px-4 py-20">
       <h1 className="text-2xl font-bold mb-6">My Job Postings</h1>
@@ -72,6 +92,10 @@ const MyListings = () => {
               <p className="text-gray-500">Company: {job.company}</p>
               <p className="text-gray-500">Location: {job.location}</p>
               <p className="text-gray-400 text-sm">Posted on: {new Date(job.createdAt).toLocaleDateString()}</p>
+              <div className="flex space-x-2 mt-2">
+                <button onClick={() => handleEdit(job._id)} className="text-blue-500 hover:underline">Edit</button>
+                <button onClick={() => handleDelete(job._id)} className="text-red-500 hover:underline">Delete</button>
+              </div>
             </li>
           ))}
         </ul>
