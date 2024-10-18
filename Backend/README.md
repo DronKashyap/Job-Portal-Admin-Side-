@@ -63,24 +63,24 @@ The backend will start running on the specified port (default is 3000).
 # API Endpoints
 
 ## Users
-- **POST /api/signup**: Create a new user  
-- **POST /api/signin**: signin a user  
-- **GET /api/users/:id**: Get a user by ID  
-- **PUT /api/users/:id**: Update user information  
-- **DELETE /api/users/:id**: Delete a user  
-- **GET /api/users**: Retrieve all users  
+- **POST /api/user/signup**: Create a new user  
+- **POST /api/user/signin**: signin a user  
+- **GET /api/user/users/:id**: Get a user by ID  
+- **PUT /api/user/users/:id**: Update user information  
+- **DELETE /api/user/users/:id**: Delete a user  
+- **GET /api/user/users**: Retrieve all users  
 
 ## Job Postings
-- **POST /api/job-postings**: Create a new job posting  
-- **GET /api/job-postings/:id**: Get a job posting by ID  
-- **PUT /api/job-postings/:id**: Update job posting information  
-- **DELETE /api/job-postings/:id**: Delete a job posting  
-- **GET /api/job-postings**: Retrieve all job postings  
+- **POST /api/jobpostings/jobpostings**: Create a new job posting  
+- **GET /api/jobpostings/jobpostings/:id**: Get a job posting by ID  
+- **PUT /api/jobpostings/jobpostings/:id**: Update job posting information  
+- **DELETE /api/jobpostings//jobpostings/:id**: Delete a job posting  
+- **GET /api/jobpostings/jobpostings**: Retrieve all job postings  
 
 ## Candidates
-- **POST /api/candidates**: Create a new candidate  
-- **GET /api/candidates/:id**: Get a candidate by ID  
-- **GET /api/candidates**: Retrieve all candidates  
+- **POST /api/candidates/candidates**: Create a new candidate  
+- **GET /api/candidates/candidates/:id**: Get a candidate by ID  
+- **GET /api/candidates/candidates**: Retrieve all candidates  
 
 # Contributing
 Contributions are welcome! Please follow these steps to contribute to the project:

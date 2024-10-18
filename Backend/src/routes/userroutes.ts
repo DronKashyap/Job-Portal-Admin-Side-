@@ -11,8 +11,8 @@ import { authenticateJWT } from '../middleware/auth';
 
 const router = express.Router();
 
-router.post('/signup', createUser);
-router.post('/signin', signInUser);
+router.post('/signup', createUser); //done
+router.post('/signin', signInUser); //done
 router.get('/users/:id', authenticateJWT, getUserById);
 router.put('/users/:id', authenticateJWT, updateUser);
 router.delete('/users/:id', authenticateJWT, deleteUser);
