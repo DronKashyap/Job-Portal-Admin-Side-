@@ -10,7 +10,7 @@ const jobPostingSchema = z.object({
   createdBy: z.string().length(24, 'Invalid user ID format'), // Assuming ObjectId is a 24 character string
 });
 
-export const createJobPosting = async (req: Request, res: Response): Promise<void> => {
+export const createJobPosting = async (req: Request <{ id: string }>, res: Response): Promise<void> => {
   try {
     const parsedData = jobPostingSchema.parse(req.body);
 
