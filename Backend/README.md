@@ -2,15 +2,22 @@
 
 ## Overview
 
-This project is a job posting backend application built using **Node.js**, **Express.js**, and **TypeScript**. The backend provides a RESTful API that allows users to manage job postings, candidates, and user accounts efficiently. It integrates various technologies for robust functionality, including **Bcrypt** for password hashing and **Zod** for input validation.
+This project is a job posting backend application built using **Node.js**, **Express.js**, and **TypeScript**. The backend provides a RESTful API that allows users to manage job postings, candidates, and user accounts efficiently. It integrates various technologies for robust functionality, including **Bcrypt** for password hashing, **Zod** for input validation and **JWT** for user authentication.
 
 ## Tech Stack
 
 - **Node.js**: A JavaScript runtime built on Chrome's V8 engine, enabling the creation of scalable server-side applications.
+
 - **Express.js**: A fast, unopinionated, minimalist web framework for Node.js that provides robust routing and middleware support.
+
 - **TypeScript**: A superset of JavaScript that adds static typing, enhancing code quality and maintainability.
+
 - **Bcrypt**: A library for hashing passwords, ensuring secure user authentication.
+
 - **Zod**: A TypeScript-first schema declaration and validation library, allowing for strong input validation and error handling.
+
+- **Jsonwebtoken**: A library for generating tokens, which are verified at the time of authentication.
+
 
 ## Features
 
@@ -18,7 +25,7 @@ This project is a job posting backend application built using **Node.js**, **Exp
 - **Job Postings**: Manage job postings including creating, retrieving, updating, and deleting job listings.
 - **Candidate Management**: Allow candidates to apply for jobs and manage candidate data.
 - **Input Validation**: Ensure all incoming data is validated against predefined schemas using Zod.
-- **Error Handling**: Consistent error handling throughout the application for improved user experience.
+
 
 ## Getting Started
 
@@ -56,7 +63,8 @@ The backend will start running on the specified port (default is 3000).
 # API Endpoints
 
 ## Users
-- **POST /api/users**: Create a new user  
+- **POST /api/signup**: Create a new user  
+- **POST /api/signin**: signin a user  
 - **GET /api/users/:id**: Get a user by ID  
 - **PUT /api/users/:id**: Update user information  
 - **DELETE /api/users/:id**: Delete a user  
@@ -88,6 +96,7 @@ Contributions are welcome! Please follow these steps to contribute to the projec
 - Express.js - Web framework for Node.js  
 - TypeScript - Typed superset of JavaScript  
 - Bcrypt - Password hashing library  
-- Zod - TypeScript-first schema validation  
+- Zod - TypeScript-first schema validation
+- JWT- For user authentication  
 
 For any questions or support, feel free to reach out!

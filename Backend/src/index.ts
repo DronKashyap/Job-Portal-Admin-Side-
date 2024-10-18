@@ -8,7 +8,7 @@ import candidateRoutes from './routes/candidateroutes';
 import jobPostingRoutes from './routes/jobpostingroutes';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const mongourl = process.env.DB_URL;
 
 app.use(cors());
@@ -18,7 +18,7 @@ mongoose.connect(`${mongourl}`)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 
-app.use('/api/users', userRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/candidates', candidateRoutes);
 app.use('/api/jobpostings', jobPostingRoutes);
 

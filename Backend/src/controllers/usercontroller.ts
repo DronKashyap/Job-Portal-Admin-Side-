@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { User } from '../models/models';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
+import { generateToken } from '../utils/jwt';
 
 const userSchema = z.object({
   username: z.string().min(1, 'Username is required'),
@@ -11,13 +12,19 @@ const userSchema = z.object({
   position: z.string().optional(),
 });
 
-const updateUserSchema = userSchema.partial(); // Allow partial updates for user fields
+const updateUserSchema = userSchema.partial(); 
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const parsedData = userSchema.parse(req.body);
     const { username, email, password, company, position } = parsedData;
 
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      res.status(409).json({ message: 'Email already in use' });
+      return; 
+    }
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
@@ -29,13 +36,39 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     });
 
     await newUser.save();
-    res.status(201).json(newUser);
+    const token = generateToken(newUser.id, newUser.username);
+    
+    res.status(201).json({ token, user: { id: newUser.id, username: newUser.username, email: newUser.email } });
+    
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).json({ message: 'Validation error', errors: error.errors });
     } else {
       res.status(500).json({ message: 'Error creating user', error });
     }
+  }
+};
+
+export const signInUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+
+    const token = generateToken(user.id,user.username);
+    res.status(200).json({ token, user: { id: user.id, username: user.username, email: user.email } });
+  } catch (error) {
+    res.status(500).json({ message: 'Error signing in', error });
   }
 };
 
