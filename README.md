@@ -44,13 +44,6 @@ The Job Posting Application is a full-stack platform that enables companies to p
 
 The application follows a client-server architecture where the frontend communicates with the backend through RESTful API endpoints.
 
-### Frontend
-
-![Frontend Architecture](https://example.com/frontend-architecture.png) *(Include your architecture diagram here)*
-
-### Backend
-
-![Backend Architecture](https://example.com/backend-architecture.png) *(Include your architecture diagram here)*
 
 ## Getting Started
 
@@ -67,7 +60,7 @@ The application follows a client-server architecture where the frontend communic
    git clone <repository-url>
    cd <repository-directory>
 
-   
+
 Frontend Installation:
 
 Navigate to the frontend directory and install dependencies:
@@ -111,29 +104,12 @@ For detailed information about the frontend implementation, refer to the fronten
 Backend
 For detailed information about the backend implementation, refer to the backend README.
 
-Folder Structure
-
-job-posting-app/
-├── frontend/                # Frontend application
-│   ├── public/              # Static files
-│   ├── src/                 # Source files
-│   └── package.json         # Project metadata and dependencies
-├── backend/                 # Backend application
-│   ├── models/              # Database models
-│   ├── routes/              # API routes
-│   └── package.json         # Project metadata and dependencies
-└── README.md                # Project overview and documentation
-Contributing
-We welcome contributions! If you'd like to contribute, please follow these steps:
 
 Fork the repository.
 Create a new branch (git checkout -b feature/YourFeature).
 Make your changes and commit them (git commit -m 'Add some feature').
 Push to the branch (git push origin feature/YourFeature).
 Open a Pull Request.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 
 
 Feel free to customize any sections or add more details specific to your project!

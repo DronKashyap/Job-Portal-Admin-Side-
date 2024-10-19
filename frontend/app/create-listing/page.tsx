@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -23,9 +23,9 @@ const CreateListing = () => {
   if (token) {
     try {
       const decoded = jwt.decode(token) as DecodedToken; 
-      console.log(decoded)
+      console.log(decoded);
       userId = decoded?.id || ''; 
-      console.log(userId)
+      console.log(userId);
     } catch (err) {
       console.error('Failed to decode token:', err);
     }
@@ -37,17 +37,17 @@ const CreateListing = () => {
     e.preventDefault();
 
     try {
-        const response = await axios.post('http://localhost:3001/api/jobpostings/jobpostings', {
-          title,
-          description,
-          company,
-          location,
-          createdBy: userId,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`, 
-          },
-        });
+      const response = await axios.post('http://localhost:3001/api/jobpostings/jobpostings', {
+        title,
+        description,
+        company,
+        location,
+        createdBy: userId,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
       console.log('Job posting created:', response.data);
     } catch (error) {
       console.error('Error creating job posting:', error);
@@ -60,13 +60,15 @@ const CreateListing = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-24">
-      <div className='flex justify-center'>
-      <button className='rounded-md bg-black text-white p-4' onClick={handleAilisting}> Use AI to create listing </button>
+    <div className="container mx-auto px-4 py-6 md:py-24">
+      <div className='flex justify-center mb-4'>
+        <button className='rounded-md bg-black text-white p-4 w-full md:w-auto' onClick={handleAilisting}>
+          Use AI to create listing
+        </button>
       </div>
-      <h2 className='flex justify-center'> or </h2>
-      <h1 className="text-2xl font-bold mb-6">Create Job Posting Manually</h1>
-      {error && <div className="mb-4 text-red-500">{error}</div>}
+      <h2 className='flex justify-center mb-2'>or</h2>
+      <h1 className="text-2xl font-bold mb-6 text-center">Create Job Posting Manually</h1>
+      {error && <div className="mb-4 text-red-500 text-center">{error}</div>}
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
@@ -122,7 +124,7 @@ const CreateListing = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-500"
+          className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-500"
         >
           Create Job Posting
         </button>

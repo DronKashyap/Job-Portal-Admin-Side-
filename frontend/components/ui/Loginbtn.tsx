@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
+import { FaUserCircle } from 'react-icons/fa'; 
 
 interface DecodedToken {
   id: number;
@@ -14,18 +15,33 @@ const LoginButton: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
+  const checkLoginStatus = () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
         const decoded: DecodedToken = jwtDecode(token);
-        console.log(decoded)
+        console.log(decoded);
         setIsLoggedIn(true);
       } catch (error) {
         console.error('Invalid token:', error);
         setIsLoggedIn(false);
       }
+    } else {
+      setIsLoggedIn(false);
     }
+  };
+
+  useEffect(() => {
+    checkLoginStatus();
+
+    const handleStorageChange = () => {
+      checkLoginStatus();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const handleButtonClick = () => {
@@ -40,26 +56,28 @@ const LoginButton: React.FC = () => {
     router.push('/create-listing');
   };
 
-
   const handleMyListings = () => {
     router.push('/my-listing');
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
-    router.push('/'); 
+    router.push('/');
   };
 
   return (
-    <div className="relative inline-block">
+    <div className="relative  flex">
       <button
         onClick={handleButtonClick}
         onMouseEnter={() => setIsDropdownOpen(true)}
         onMouseLeave={() => setIsDropdownOpen(false)}
-        className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
+        className="flex items-center bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
       >
-        {isLoggedIn ? 'User icon' : 'Login'}
+        {isLoggedIn ?  <span className="mr-2 text-2xl">
+            <FaUserCircle /> 
+          </span>: 'Login'}
+        {isLoggedIn ? 'User' : null}
       </button>
 
       {isLoggedIn && (
@@ -75,7 +93,7 @@ const LoginButton: React.FC = () => {
         <div
           onMouseEnter={() => setIsDropdownOpen(true)}
           onMouseLeave={() => setIsDropdownOpen(false)}
-          className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg"
+          className="absolute right-0 mt-10 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10"
         >
           <ul>
             <li

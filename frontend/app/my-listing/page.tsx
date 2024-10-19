@@ -78,7 +78,7 @@ const MyListings = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-20">
+    <div className="container mx-auto px-4 py-5 md:py-20">
       <h1 className="text-2xl font-bold mb-6">My Job Postings</h1>
       {error && <div className="mb-4 text-red-500">{error}</div>}
       {jobPostings.length === 0 ? (
@@ -86,7 +86,7 @@ const MyListings = () => {
       ) : (
         <ul className="space-y-4">
           {jobPostings.map((job) => (
-            <li key={job._id} className="bg-white p-4 rounded shadow-md">
+            <li key={job._id} className="bg-white p-4 rounded shadow-md transition-transform transform hover:scale-95">
               <h2
                 className="text-xl font-semibold text-blue-500 hover:underline cursor-pointer"
                 onClick={() => handleViewJob(job._id)}
@@ -97,8 +97,8 @@ const MyListings = () => {
               <p className="text-gray-500">Company: {job.company}</p>
               <p className="text-gray-500">Location: {job.location}</p>
               <p className="text-gray-400 text-sm">Posted on: {new Date(job.createdAt).toLocaleDateString()}</p>
-              <div className="flex space-x-2 mt-2">
-                <button onClick={() => handleEdit(job._id)} className="text-blue-500 hover:underline">Edit</button>
+              <div className="flex flex-col sm:flex-row sm:space-x-2 mt-2">
+                <button onClick={() => handleEdit(job._id)} className="text-blue-500 hover:underline mb-2 sm:mb-0">Edit</button>
                 <button onClick={() => handleDelete(job._id)} className="text-red-500 hover:underline">Delete</button>
               </div>
             </li>

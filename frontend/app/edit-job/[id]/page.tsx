@@ -27,7 +27,6 @@ const EditJobPosting = () => {
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
    
   useEffect(() => {
-  
     const fetchJobPosting = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/jobpostings/jobpostings/${id}`, {
@@ -89,7 +88,7 @@ const EditJobPosting = () => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-500"
             required
           />
         </div>
@@ -98,8 +97,9 @@ const EditJobPosting = () => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-500"
             required
+            rows={4}
           />
         </div>
         <div>
@@ -108,7 +108,7 @@ const EditJobPosting = () => {
             type="text"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-500"
             required
           />
         </div>
@@ -118,13 +118,13 @@ const EditJobPosting = () => {
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-500"
             required
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-500"
           disabled={loading}
         >
           {loading ? 'Saving...' : 'Update Job Posting'}
