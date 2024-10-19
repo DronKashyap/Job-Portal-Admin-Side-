@@ -56,7 +56,7 @@ const MyListings = () => {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this job posting?')) {
       try {
-        await axios.delete(`http://localhost:3001/api/jobpostings/${id}`, {
+        await axios.delete(`http://localhost:3001/api/jobpostings/jobpostings/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +70,7 @@ const MyListings = () => {
   };
 
   const handleEdit = async (id: string) => {
-    router.push(`/edit-job-posting/${id}`);
+    router.push(`/edit-job/${id}`);
   };
 
   return (
