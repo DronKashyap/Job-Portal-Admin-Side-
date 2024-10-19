@@ -73,6 +73,10 @@ const MyListings = () => {
     router.push(`/edit-job/${id}`);
   };
 
+  const handleViewJob = (id: string) => {
+    router.push(`/job-posting/${id}`);
+  };
+
   return (
     <div className="container mx-auto px-4 py-20">
       <h1 className="text-2xl font-bold mb-6">My Job Postings</h1>
@@ -83,10 +87,11 @@ const MyListings = () => {
         <ul className="space-y-4">
           {jobPostings.map((job) => (
             <li key={job._id} className="bg-white p-4 rounded shadow-md">
-              <h2 className="text-xl font-semibold">
-                <a href={`/job-postings/${job._id}`} className="text-blue-500 hover:underline">
-                  {job.title}
-                </a>
+              <h2
+                className="text-xl font-semibold text-blue-500 hover:underline cursor-pointer"
+                onClick={() => handleViewJob(job._id)}
+              >
+                {job.title}
               </h2>
               <p className="text-gray-700">{job.description}</p>
               <p className="text-gray-500">Company: {job.company}</p>

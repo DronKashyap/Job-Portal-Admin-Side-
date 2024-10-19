@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
-import { Candidate } from '../models/models';
+import { Candidate, JobPosting } from '../models/models';
 import { z } from 'zod';
 
 const candidateSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   email: z.string().email('Invalid email format'),
   resume: z.string().min(1, 'Resume is required'),
-  jobPosting: z.string().uuid('Invalid job posting ID format'), // Assuming jobPosting is a UUID
+  jobPosting: z.string()
+    .regex(/^[0-9a-fA-F]{24}$/, 'Invalid job posting ID format'), 
 });
 
 export const createCandidate = async (req: Request, res: Response): Promise<void> => {
@@ -22,6 +23,13 @@ export const createCandidate = async (req: Request, res: Response): Promise<void
     });
 
     await newCandidate.save();
+
+    //  Update the job posting to include the new candidate
+    await JobPosting.findByIdAndUpdate(
+      jobPosting,
+      { $addToSet: { candidates: newCandidate._id } }, 
+      { new: true } 
+    );
     res.status(201).json(newCandidate);
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -31,6 +39,7 @@ export const createCandidate = async (req: Request, res: Response): Promise<void
     }
   }
 };
+
 
 export const getCandidateById = async (req: Request, res: Response): Promise<void> => {
   try {

@@ -7,7 +7,7 @@ const jobPostingSchema = z.object({
   description: z.string().min(1, 'Description is required'),
   company: z.string().min(1, 'Company name is required'),
   location: z.string().min(1, 'Location is required'),
-  createdBy: z.string().length(24, 'Invalid user ID format'), // Assuming ObjectId is a 24 character string
+  createdBy: z.string().length(24, 'Invalid user ID format'), 
 });
 
 export const createJobPosting = async (req: Request <{ id: string }>, res: Response): Promise<void> => {

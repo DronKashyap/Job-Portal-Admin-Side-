@@ -55,9 +55,17 @@ const CreateListing = () => {
     }
   };
 
+  const handleAilisting = () => {
+    router.push('/ai-listing');
+  };
+
   return (
     <div className="container mx-auto px-4 py-24">
-      <h1 className="text-2xl font-bold mb-6">Create Job Posting</h1>
+      <div className='flex justify-center'>
+      <button className='rounded-md bg-black text-white p-4' onClick={handleAilisting}> Use AI to create listing </button>
+      </div>
+      <h2 className='flex justify-center'> or </h2>
+      <h1 className="text-2xl font-bold mb-6">Create Job Posting Manually</h1>
       {error && <div className="mb-4 text-red-500">{error}</div>}
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
         <div className="mb-4">

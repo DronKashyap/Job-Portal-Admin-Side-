@@ -19,7 +19,7 @@ function Navbar() {
       >
         Job Portal
       </h1>
-      <h1 className="text-lg">Dashboard</h1>
+     
       <LoginButton />
     </div>
   );

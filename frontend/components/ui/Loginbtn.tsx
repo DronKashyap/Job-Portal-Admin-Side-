@@ -40,9 +40,6 @@ const LoginButton: React.FC = () => {
     router.push('/create-listing');
   };
 
-  const handleProfile = () => {
-    router.push('/profile');
-  };
 
   const handleMyListings = () => {
     router.push('/my-listing');
@@ -81,12 +78,6 @@ const LoginButton: React.FC = () => {
           className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg"
         >
           <ul>
-            <li
-              onClick={handleProfile}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-            >
-              Profile
-            </li>
             <li
               onClick={handleMyListings}
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
